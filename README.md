@@ -2,7 +2,9 @@
 
 interactive nuclear fission simulation using pure html and js  
 
-![Rotating AGV](example.webp)
+**Available at: [nuclearfissionsimulation.krzsztf.com](https://nuclearfissionsimulation.krzsztf.com/)**
+
+![Example simulation](example.webp)
 
 ## (PL) Instrukcja:
 Kliknij lewym przyskiem myszki, aby stworzyć w miejscu kursora obiekt zgodny z aktualnym trybem.
