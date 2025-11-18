@@ -4,6 +4,56 @@ const c = canvas.getContext('2d')
 canvas.width = innerWidth
 canvas.height = innerHeight
 
+function drawModePanel() {
+    const modes = [
+        { key: 'Space/U', name: 'Uranium-235', desc: 'stationary' },
+        { key: 'Shift', name: 'Uranium-235', desc: 'random velocity' },
+        { key: 'Ctrl', name: 'Neutron', desc: 'moving along X-axis' },
+        { key: 'Alt', name: 'Neutron', desc: 'random velocity' },
+        { key: 'N', name: 'Neutron', desc: 'stationary' },
+        { key: 'P', name: 'Proton', desc: 'stationary' },
+        { key: 'B', name: 'Barium-141', desc: 'stationary' },
+        { key: 'K', name: 'Krypton-92', desc: 'stationary' }
+    ]
+    
+    const panelWidth = 280
+    const panelX = 10
+    const panelY = 10
+    const lineHeight = 32
+    
+    c.fillStyle = 'rgba(245, 245, 245, 0.65)'
+    c.fillRect(panelX, panelY, panelWidth, modes.length * lineHeight + 20)
+    
+    c.textAlign = 'left'
+    
+    modes.forEach((item, index) => {
+        const y = panelY + 20 + (index * lineHeight)
+        const isActive = mode === index
+        
+        if (isActive) {
+            c.fillStyle = 'rgba(150, 220, 255, 0.3)'
+            c.fillRect(panelX + 5, y - 16, panelWidth - 10, lineHeight - 2)
+        
+            c.fillStyle = '#005500'
+            c.fillRect(panelX + 8, y - 14, 4, lineHeight - 6)
+        }
+        
+        c.font = 'bold 13px monospace'
+        c.fillStyle = isActive ? '#005500' : '#333333'
+        c.fillText(item.key, panelX + 20, y)
+        
+        c.font = isActive ? 'bold 13px Arial' : '13px Arial'
+        c.fillStyle = isActive ? '#000000' : '#111111'
+        c.fillText(item.name, panelX + 100, y)
+        
+        // Opis
+        c.font = 'italic 12px Arial'
+        c.fillStyle = isActive ? '#000000' : '#222222'
+        c.fillText(item.desc, panelX + 100, y + 12)
+    })
+}
+
+
 class Nucleon {
     constructor(x, y, color, velocity){
         this.x = x
@@ -68,9 +118,9 @@ class Neutron extends Nucleon {
 }
 
 class Nuke {
-    constructor(protonsno, neutronsno, radius, x, y, velocity, initialized){
-        this.protonsno = protonsno
-        this.neutronsno = neutronsno
+    constructor(protonsNo, neutronsNo, radius, x, y, velocity, initialized){
+        this.protonsNo = protonsNo
+        this.neutronsNo = neutronsNo
         this.radius = radius
         this.x = x
         this.y = y
@@ -80,13 +130,13 @@ class Nuke {
     }
 
     initialize() {
-        for (let i = 0; i < this.protonsno; i++) {
+        for (let i = 0; i < this.protonsNo; i++) {
             var a = (Math.random() - 0.5) * 2 * this.radius
             var b = (Math.random() - 0.5) * 2 * Math.sqrt((this.radius * this.radius) - (a * a))
             this.nucleons.push(new Proton(this.x + a, this.y + b, this.velocity))
           }
 
-        for (let i = 0; i < this.neutronsno; i++) {
+        for (let i = 0; i < this.neutronsNo; i++) {
             var a = (Math.random() - 0.5) * 2 * this.radius
             var b = (Math.random() - 0.5) * 2 * Math.sqrt((this.radius * this.radius) - (a * a))
             this.nucleons.push(new Neutron(this.x + a, this.y + b, this.velocity))
@@ -243,6 +293,8 @@ function animate() {
             }
         })
     })
+
+    drawModePanel()
 }
 
 var mode = 0
